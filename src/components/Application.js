@@ -22,22 +22,40 @@ const defaultState = [
 
 class Application extends Component {
   state = {
-    // Set the initial state,
+    items: defaultState,
   };
 
-  // How are we going to manipualte the state?
-  // Ideally, users are going to want to add, remove,
-  // and check off items, right?
+  packedItems = () => {
+    return this.state.items.filter(item => item.packed === true);
+  };
+
+  unpackedItems = () => {
+    return this.state.items.filter(item => item.packed === false);
+  };
+
+  addItem = item => {
+    this.setState({ items: [item, ...this.state.items] });
+  };
+
+  resetList = items => {
+    const updatedItems = items.map(item => {
+      const newObject = Object.assign({}, item);
+      newObject.packed = false;
+      return newObject;
+    });
+
+    this.setState(oldState => {
+      return { items: updatedItems };
+    });
+  };
 
   render() {
-    // Get the items from state
-
     return (
       <div className="Application">
-        <NewItem />
+        <NewItem onSubmit={this.addItem} />
         <CountDown />
-        <Items title="Unpacked Items" items={[]} />
-        <Items title="Packed Items" items={[]} />
+        <Items title="Unpacked Items" items={this.unpackedItems()} />
+        <Items title="Packed Items" items={this.packedItems()} />
         <button className="button full-width">Mark All As Unpacked</button>
       </div>
     );
