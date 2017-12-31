@@ -37,6 +37,12 @@ class Application extends Component {
     this.setState({ items: [item, ...this.state.items] });
   };
 
+  removeItem = itemToRemove => {
+    this.setState({
+      items: this.state.items.filter(item => item.id !== itemToRemove.id),
+    });
+  };
+
   resetList = items => {
     const updatedItems = items.map(item => {
       const newObject = Object.assign({}, item);
@@ -54,8 +60,16 @@ class Application extends Component {
       <div className="Application">
         <NewItem onSubmit={this.addItem} />
         <CountDown />
-        <Items title="Unpacked Items" items={this.unpackedItems()} />
-        <Items title="Packed Items" items={this.packedItems()} />
+        <Items
+          title="Unpacked Items"
+          items={this.unpackedItems()}
+          onRemove={this.removeItem}
+        />
+        <Items
+          title="Packed Items"
+          items={this.packedItems()}
+          onRemove={this.removeItem}
+        />
         <button className="button full-width">Mark All As Unpacked</button>
       </div>
     );

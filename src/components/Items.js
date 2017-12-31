@@ -10,7 +10,7 @@ class Items extends Component {
   updateSearchTerm = searchTerm => {};
 
   render() {
-    const { title, items } = this.props;
+    const { title, items, onRemove } = this.props;
     return (
       <section className="Items">
         <h2>
@@ -20,16 +20,16 @@ class Items extends Component {
         {items
           .filter(item =>
             // Hmm… this needs some work.
-            item.value.toLowerCase().includes(''.toLowerCase()),
+            item.value.toLowerCase().includes(''.toLowerCase())
           )
-          .map(item => (
+          .map(item =>
             <Item
               key={item.id}
               onCheckOff={() => {}}
-              onRemove={() => {}}
+              onRemove={() => onRemove(item)}
               item={item}
             />
-          ))}
+          )}
       </section>
     );
   }
