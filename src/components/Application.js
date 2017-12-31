@@ -51,16 +51,11 @@ class Application extends Component {
     this.setState({ items });
   };
 
-  resetList = items => {
-    const updatedItems = items.map(item => {
-      const newObject = Object.assign({}, item);
-      newObject.packed = false;
-      return newObject;
+  markAllAsUnpacked = () => {
+    const items = this.state.items.map(item => {
+      return { ...item, packed: false };
     });
-
-    this.setState(oldState => {
-      return { items: updatedItems };
-    });
+    this.setState({ items });
   };
 
   render() {
@@ -80,7 +75,9 @@ class Application extends Component {
           onRemove={this.removeItem}
           onToggle={this.toggleItem}
         />
-        <button className="button full-width">Mark All As Unpacked</button>
+        <button className="button full-width" onClick={this.markAllAsUnpacked}>
+          Mark All As Unpacked
+        </button>
       </div>
     );
   }
